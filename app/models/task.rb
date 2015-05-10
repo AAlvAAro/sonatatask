@@ -6,6 +6,8 @@ class Task
   field :finished, type: Mongoid::Boolean, default: false
   field :expiration, type: Time
   field :content, type: String
+  field :sharer_id, type: String
+  field :sharer_username, type: String
 
   embedded_in :user
   embeds_many :tasks, cascade_callbacks: true
