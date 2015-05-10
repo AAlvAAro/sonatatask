@@ -16,7 +16,14 @@ require "rails/test_unit/railtie"
 Bundler.require(*Rails.groups)
 
 module Sonatatask
-  class Application < Rails::Application
+  class Application < Rails::Applicationa
+
+    config.middleware.insert_before 0, "Rack::Cors", :debug => true do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :options, :head]
+      end
+    end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

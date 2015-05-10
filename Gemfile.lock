@@ -89,6 +89,7 @@ GEM
     optionable (0.2.0)
     origin (2.1.1)
     rack (1.6.1)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.1)
@@ -170,6 +171,7 @@ DEPENDENCIES
   faker
   jwt
   mongoid (~> 4.0.0)
+  rack-cors
   rails (= 4.2.1)
   rails-api
   rspec-rails

@@ -8,6 +8,7 @@ gem 'mongoid', '~> 4.0.0'
 gem 'bson_ext'
 gem 'jwt'
 gem 'bcrypt-ruby'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'spring'
