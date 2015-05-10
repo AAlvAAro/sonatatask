@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :users, except: ['new', 'edit']
-
-  resources :tasks, except: ['index', 'new', 'edit'] do
+	resources :users, except: ['index', 'new', 'edit']
+  
+  resources :tasks, except: ['new', 'edit'] do
     member do
       patch :check
       post :share
@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
     resources :tags, only: ['create', 'update', 'destroy']
   end
+
+  match '*path', to: 'application#not_found', via: :all
 end

@@ -2,7 +2,23 @@ require 'jwt'
 
 class ApplicationController < ActionController::API
 	include ActionController::HttpAuthentication::Token::ControllerMethods
-	before_action :authenticate_request 
+	rescue_from Exception, with: :internal_server_error
+
+	def internal_server_error
+		render json: { error: 'Internal Server Error' }, status: 500
+	end
+
+	def not_found
+		render json: { error: 'Not Found' }, status: 404
+	end
+
+	def empty_ok_response
+		render :json, {}, status: :ok
+	end
+
+	def respond_with_errors(errors)
+		render :json, { errors: errors }, status: :unprocessable_entity
+	end
 
 	protected
 		def authenticate_request
