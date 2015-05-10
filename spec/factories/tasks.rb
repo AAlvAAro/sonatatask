@@ -2,10 +2,9 @@ require 'faker'
 
 FactoryGirl.define do
   factory :task do
-    finished "MyString"
-    expiration "MyString"
-    content "MyString"
-    tags "MyString"
+    finished false
+    expiration Faker::Time.forward(7, :night)
+    content Faker::Lorem.sentence
   end
 
 end
