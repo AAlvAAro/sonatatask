@@ -14,4 +14,11 @@ class Task
   embeds_many :images, cascade_callbacks: true
 
   validates :content, presence: true
+
+  # Elasticsearch fields to lookup
+  def as_indexed_json
+    {
+      content: content
+    }
+  end
 end

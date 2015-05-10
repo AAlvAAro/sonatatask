@@ -31,4 +31,9 @@ class UsersController < ApplicationController
       respond_with_errors(@user.errors)
     end
   end
+
+  def search_tasks
+    @tasks = current_user.tasks.es.search(params[:query])
+    render json: { tasks: @tasks }, status: :ok
+  end
 end

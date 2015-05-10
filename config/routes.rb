@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-	resources :users, except: ['index', 'new', 'edit']
+	resources :users, except: ['index', 'new', 'edit'] do 
+    member do
+      get :search_tasks
+    end
+  end
   
   resources :tasks, except: ['new', 'edit'] do
     member do
