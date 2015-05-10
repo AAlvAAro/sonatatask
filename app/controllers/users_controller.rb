@@ -1,16 +1,34 @@
 class UsersController < ApplicationController
-  def index
-  end
+  before_action :authenticate_request, except: ['create']
 
   def show
+    @user = User.find(current_user.id)
+    render json: { user: @user }, status: :ok
   end
 
   def create
+    @user = User.create(params)
+    if @user.persisted?
+      render json: { auth_token: @user.auth_token }, status: :ok
+    else
+      respond_with_errors(@user.erors)
+    end
   end
 
   def update
+    @user.update_attributes(params)
+    if @user.save!
+      render json: { auth_token: @user.auth_token }, status: :ok
+    else
+      respond_with_errors(@user.errors)
+    end
   end
 
   def destroy
+    if @user.find(params[:id]).destroy
+      empty_ok_response
+    else
+      respond_with_errors(@user.errors)
+    end
   end
 end
