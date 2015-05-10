@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       patch :check
       post :share
+      post :attach_image
     end 
 
     resources :tags, only: ['create', 'update', 'destroy']

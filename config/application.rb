@@ -16,7 +16,7 @@ require "rails/test_unit/railtie"
 Bundler.require(*Rails.groups)
 
 module Sonatatask
-  class Application < Rails::Applicationa
+  class Application < Rails::Application
 
     config.middleware.insert_before 0, "Rack::Cors", :debug => true do
       allow do

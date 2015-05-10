@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/ahoward/mongoid-grid_fs.git
+  revision: 2507e65a60206cb726c0a38bdab8dd343150c0e0
+  specs:
+    mongoid-grid_fs (2.1.0)
+      mime-types (>= 1.0, < 3.0)
+      mongoid (>= 3.0, < 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,6 +56,15 @@ GEM
     bson (2.3.0)
     bson_ext (1.5.1)
     builder (3.2.2)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+    carrierwave-mongoid (0.7.1)
+      carrierwave (>= 0.8.0, < 0.11.0)
+      mongoid (>= 3.0, < 5.0)
+      mongoid-grid_fs (>= 1.3, < 3.0)
     connection_pool (2.2.0)
     diff-lcs (1.2.5)
     domain_name (0.5.24)
@@ -167,10 +184,13 @@ DEPENDENCIES
   airborne
   bcrypt-ruby
   bson_ext
+  carrierwave
+  carrierwave-mongoid
   factory_girl_rails
   faker
   jwt
   mongoid (~> 4.0.0)
+  mongoid-grid_fs!
   rack-cors
   rails (= 4.2.1)
   rails-api

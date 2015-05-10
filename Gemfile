@@ -9,6 +9,9 @@ gem 'bson_ext'
 gem 'jwt'
 gem 'bcrypt-ruby'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'carrierwave'
+gem 'carrierwave-mongoid'
+gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 
 group :development, :test do
   gem 'spring'

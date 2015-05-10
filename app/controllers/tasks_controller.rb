@@ -49,4 +49,17 @@ class TasksController < ApplicationController
       respond_with_errors(@friend.errors)
     end
   end
+
+  def attach_image
+    @task = Task.find(params[:id])
+    @image = @task.images.new
+    tmp = params[:file].tempfile
+    img = MiniMagick::Image.read(tmp)
+    @image.image = File.open(img.path) 
+    if @image.save!
+      empty_ok_response
+    else
+      respond_with_errors(@task.errors)
+    end
+  end
 end
