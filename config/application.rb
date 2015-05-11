@@ -18,6 +18,8 @@ Bundler.require(*Rails.groups)
 module Sonatatask
   class Application < Rails::Application
 
+    config.force_ssl = true
+
     config.middleware.insert_before 0, "Rack::Cors", :debug => true do
       allow do
         origins '*'

@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 
 gem 'rails-api'
+gem 'thin'
 gem 'mongoid', '~> 4.0.0'
 gem 'bson_ext'
 gem 'jwt'
