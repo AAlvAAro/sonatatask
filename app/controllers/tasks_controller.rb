@@ -59,7 +59,7 @@ class TasksController < ApplicationController
     @friend.tasks.create(
       expiration: params[:expiration],
       content: params[:content],
-      sharer_id: params[:id],
+      sharing_id: params[:id],
       sharer_username: params[:username]
     )
     if @friend.persisted?
@@ -95,7 +95,7 @@ class TasksController < ApplicationController
   end
 
   def add_tags
-    # Add comma separated tags to the tag array
+    # Add comma separated tags to the tags array
     @task = Task.find(params[:id])
     @task.tags.concat(params[:tags].delete(" ").split(","))
     if @task.save!
