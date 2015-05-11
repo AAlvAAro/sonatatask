@@ -97,7 +97,7 @@ class TasksController < ApplicationController
   def add_tags
     # Add comma separated tags to the tag array
     @task = Task.find(params[:id])
-    @task.tags.concat(params[:tags])
+    @task.tags.concat(params[:tags].delete(" ").split(","))
     if @task.save!
       empty_ok_response
     else
@@ -116,7 +116,7 @@ class TasksController < ApplicationController
   end
 
   private
-    def get_pagination_termsa
+    def get_pagination_terms
       # set pagination terms by getting the params in the form ?page=page_number&offset=offset_number 
       # or use the defaults
       page = params[:page] || 1
