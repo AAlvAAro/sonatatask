@@ -6,11 +6,11 @@ class Task
   field :finished, type: Mongoid::Boolean, default: false
   field :expiration, type: Time
   field :content, type: String
+  field :tags, type: Array
   field :sharer_id, type: String
   field :sharer_username, type: String
 
   embedded_in :user
-  embeds_many :tags, cascade_callbacks: true
   embeds_many :images, cascade_callbacks: true
 
   validates :content, presence: true
@@ -18,7 +18,7 @@ class Task
   # Elasticsearch fields to lookup
   def as_indexed_json
     {
-      content: content,
+      content: content
     }
   end
 end

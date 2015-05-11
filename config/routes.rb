@@ -10,9 +10,10 @@ Rails.application.routes.draw do
       patch :check
       post :share
       post :attach_image
+      get :filter_by_tag
+      post :add_tags
+      delete :remove_tag
     end 
-
-    resources :tags, only: ['create', 'update', 'destroy']
   end
 
   match '*path', to: 'application#not_found', via: :all

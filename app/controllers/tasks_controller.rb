@@ -6,11 +6,15 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
-    render json: @task, status: 200
+    render json: { task: @task }, status: 200
   end
 
   def create
-    @task = Task.create(task_params)
+    @task = Task.create(
+      expiration: params[:expiration],
+      content: params[:content],
+      tags: params[:tags].to_a
+    )
     if @task.persisted?
       empty_ok_response
     else
@@ -20,7 +24,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update_attributes(task_params)
+    @task.update_attributes(params.permit(:finished, :expiration, :content))
     if @task.save!
       empty_ok_response
     else
@@ -35,6 +39,16 @@ class TasksController < ApplicationController
     else
       respond_with_errors(@task.errors)
     end   
+  end
+
+  def check
+    @task = Task.find(params[:id])
+    @task.finished = true
+    if @task.save!
+      render json: { checked: true }, status: :ok
+    else
+      respond_with_errors(@task.errors)
+    end
   end
 
   def share
@@ -65,8 +79,28 @@ class TasksController < ApplicationController
     end
   end
 
-  private
-    def task_params
-      params.permit(:expiration, :content)
+  def filter_by_tag
+    @tasks = current_user.tasks.where
+  end
+
+  def add_tags
+    # Add comma separated tags to the tag array
+    @task = Task.find(params[:id])
+    @task.tags.concat(params[:tags])
+    if @task.save!
+      empty_ok_response
+    else
+      respond_with_errors(@task.errors)
     end
+  end
+
+  def remove_tag
+    @task = Task.find(params[:id])
+    @task.delete(params[:tag])
+    if @task.save!
+      empty_ok_response
+    else
+      respond_with_errors(@task.errors)
+    end
+  end
 end

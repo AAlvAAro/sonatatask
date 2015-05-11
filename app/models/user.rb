@@ -19,6 +19,8 @@ class User
   after_save :clear_password
 
   private
+  
+    # Generate the auth_token with JWT standard to allow secure calls to the API
   	def set_auth_token
   		return if auth_token.present?
   		self.auth_token = create_jwt
