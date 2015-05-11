@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  before_action authenticate_user unless Rails.env.test?
+
   def index
     @tasks = current_user.tasks
     render json: { tasks: @tasks }, status: :ok
