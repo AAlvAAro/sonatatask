@@ -10,7 +10,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create(params)
+    @task = Task.create(task_params)
     if @task.persisted?
       empty_ok_response
     else
@@ -20,7 +20,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update_attributes(params)
+    @task.update_attributes(task_params)
     if @task.save!
       empty_ok_response
     else
@@ -38,12 +38,14 @@ class TasksController < ApplicationController
   end
 
   def share
-    @task = Task.find(params[:id]
-    @task.sharer_id = current_user.id
-    @task.sharer_username = current_user.username
-    @friend = User.find(params[:id])
-    @friend.shares << @task
-    if @friend.shares.save!
+    @friend = User.find(params[:friend_id])
+    @friend.shares.create(
+      expiration: params[:expiration],
+      content: params[:content],
+      sharer_id: params[:id],
+      sharer_username: params[:username]
+    )
+    if @friend.persisted?
       empty_ok_response
     else
       respond_with_errors(@friend.errors)
@@ -62,4 +64,9 @@ class TasksController < ApplicationController
       respond_with_errors(@task.errors)
     end
   end
+
+  private
+    def task_params
+      params.permit(:expiration, :content)
+    end
 end

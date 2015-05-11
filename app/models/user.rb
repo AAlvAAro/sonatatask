@@ -10,7 +10,7 @@ class User
   field :auth_token, type: String
   field :shares, type: Array, default: []
 
-  embeds_many :tasks
+  embeds_many :tasks, cascade_callbacks: true
 
   validates :username, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :password, presence: true

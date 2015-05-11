@@ -18,7 +18,7 @@ class Task
   # Elasticsearch fields to lookup
   def as_indexed_json
     {
-      content: content
+      content: content,
     }
   end
 end

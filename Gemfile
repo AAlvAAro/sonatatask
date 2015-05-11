@@ -12,6 +12,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'carrierwave'
 gem 'carrierwave-mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
+gem 'mini_magick'
 gem 'mongoid-elasticsearch'
 
 group :development, :test do
