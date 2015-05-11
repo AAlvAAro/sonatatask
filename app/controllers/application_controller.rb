@@ -32,9 +32,6 @@ class ApplicationController < ActionController::API
 			authenticate_or_request_with_http_token do |token, options|
 				jwt_token = JWT.decode(token, "SECRET_KEY")
 				user = User.find_by(auth_token: jwt_token)
-				def current_user
-					@current_user ||= user
-				end
 			end
 		end
 
