@@ -14,6 +14,7 @@ gem 'carrierwave-mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'mini_magick'
 gem 'mongoid-elasticsearch'
+gem 'will_paginate_mongoid'
 
 group :development, :test do
   gem 'spring'

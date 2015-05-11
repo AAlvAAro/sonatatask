@@ -1,11 +1,18 @@
 require 'faker'
-require 'jwt'
 
 FactoryGirl.define do
   factory :user do
-    usernamme Faker::Internet.email
+  	id Faker::Lorem.characters(20)
+    username Faker::Internet.email
     password Faker::Internet.password
-    token JWT.encode({username: username, password: password}, 'SECRET_KEY')
+    tasks { [FactoryGirl.build(:task)] }
   end
 
+  factory :friend do
+  	id Faker::Lorem.characters(20)
+ 	username Faker::Internet.email
+  	password Faker::Internet.password
+
+  	tasks { [FactoryGirl.build(:friend_task)] }
+  end
 end

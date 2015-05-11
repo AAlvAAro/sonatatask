@@ -32,11 +32,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def search_tasks
-    @tasks = current_user.tasks.es.search(params[:query]).results
-    render json: { tasks: @tasks }, status: :ok
-  end
-
   private
     def user_params
       params.permit(:username, :password)

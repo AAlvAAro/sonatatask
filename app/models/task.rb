@@ -6,7 +6,7 @@ class Task
   field :finished, type: Mongoid::Boolean, default: false
   field :expiration, type: Time
   field :content, type: String
-  field :tags, type: Array
+  field :tags, type: Array, default: []
   field :sharer_id, type: String
   field :sharer_username, type: String
 
