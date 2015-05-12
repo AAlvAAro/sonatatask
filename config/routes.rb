@@ -15,9 +15,9 @@ Rails.application.routes.draw do
       end
     end
 
-    post '/share/:share_id/:friend_id', to: 'tasks#share' 
-    patch '/share/:share_id/:friend_id', to: 'tasks#update_share'
-    delete '/share/:share_id/:friend_id', to: 'tasks#destroy_share'
+    post '/share/:share_id/:friend_id' => 'tasks#share' 
+    patch '/share/:share_id/:friend_id' => 'tasks#update_share'
+    delete '/share/:share_id/:friend_id' => 'tasks#destroy_share'
   end
 
   match '*path', to: 'application#not_found', via: :all
