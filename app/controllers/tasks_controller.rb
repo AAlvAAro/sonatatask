@@ -54,48 +54,53 @@ class TasksController < ApplicationController
     end
   end
 
-  # Create a share for the users involved to allow updating and destroying
-  # for both users
+  # Create, Update and Destroy shares on both sides
   def share
     @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @task = @user.find(params[:task_id])
-    @friend.tasks.create(
-      finished: @task.finished,
-      expiration: @task.expiration,
-      content: @task.content,
-      tags: @task.tags,
-      owner_id: @user.id,
-      friend_id: @friend.id  
-    )
-    if @friend.persisted?
+    task = @user.find(params[:task_id])
+    share_obj = {
+      finished: task.finished,
+      expiration: task.expiration,
+      content: task.content,
+      tags: task.tags,
+      share_id: task.id.to_s,
+      owner_id: user.id,
+      friend_id: friend.id  
+    }
+    @user.tasks.create(share_obj)
+    @friend.tasks.create(share_obj)
+    if @user.persisted? && @friend.persisted?
       empty_ok_response
     else
-      respond_with_errors(@friend.errors)
+      render json: { error: "Share couldn't be saved" }, status: :unprocessable_entity
     end
-  enda
+  end
 
   def get_shares
     @shares = User.find(params[:id]).shares
     render json: { shares: @shares }, status: :ok
   end
 
-  def edit_share
-    @share = Share.find(params[:share_id])
-    @share.update_attributes(params)
-    if @share.persisted?
+  def update_share
+    @user_share = User.find(params[:user_id]).shares.find(params[:share_id])
+    @friend_share = User.find(params[:friend_id]).shares.find(params[:share_id])
+    @user_share.update_attributes(share_params)
+    @friend_share.update_attributes(share_params)
+    if @user_share.persisted? && @friend_share.persisted?
       empty_ok_response
     else
-      respond_with_errors(@share.errors)
+      render json: { error: "Share couldn't be updated" }, status: :unprocessable_entity
     end
   end
 
   def destroy_share
-    @share = Share.find(params[:id]).destroy
-    if @share.destroyed?
+    @user_share = User.find(params[:user_id]).find(params[:share_id]).destroy
+    @friend_share = User.find(params[:friend_id]).find(params[:share_id]).destroy
+    if @user_share.destroyed? and @friend_share.destroyed?
       empty_ok_response
     else
-      respond_with_errors(@share.errors)
+      render json: { error: "Share couldn't be deleted" }, status: :unprocessable_entity
     end
   end
 
@@ -151,5 +156,9 @@ class TasksController < ApplicationController
       # or use the defaults
       page = params[:page] || 1
       offset = params[:offset] || 10
+    end
+
+    def share_params
+      params.permit(:finished, :expiration, :content, :tags)
     end
 end

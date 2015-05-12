@@ -13,13 +13,12 @@ Rails.application.routes.draw do
         patch :add_tags
         delete :remove_tag
       end
-      post '/share/:friend_id', to: 'tasks#share' 
     end
-  end
 
-  put '/update_share/:share_id', to: 'tasks#update_share'
-  delete '/destroy_share/:share_id', to: 'tasks#destroy_share'
-  
+    post '/share/:share_id/:friend_id', to: 'tasks#share' 
+    patch '/share/:share_id/:friend_id', to: 'tasks#update_share'
+    delete '/share/:share_id/:friend_id', to: 'tasks#destroy_share'
+  end
 
   match '*path', to: 'application#not_found', via: :all
 end
