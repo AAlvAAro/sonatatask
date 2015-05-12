@@ -8,9 +8,9 @@ class User
   field :encrypted_password, type: String
   field :salt, type: String
   field :auth_token, type: String
-  field :shares, type: Array, default: []
 
   embeds_many :tasks, cascade_callbacks: true
+  has_many :shares
 
   validates :username, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :password, presence: true

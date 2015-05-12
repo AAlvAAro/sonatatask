@@ -54,18 +54,43 @@ class TasksController < ApplicationController
     end
   end
 
+  # Create a share for the users involved to allow updating and destroying
+  # for both users
   def share
+    @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
+    @task = @user.find(params[:task_id])
     @friend.tasks.create(
-      expiration: params[:expiration],
-      content: params[:content],
-      sharing_id: params[:id],
-      sharer_username: params[:username]
+      finished: @task.finished,
+      expiration: @task.expiration,
+      content: @task.content,
+      tags: @task.tags,
+      owner_id: @user.id,
+      friend_id: @friend.id  
     )
     if @friend.persisted?
       empty_ok_response
     else
       respond_with_errors(@friend.errors)
+    end
+  end
+
+  def edit_share
+    @share = Share.find(params[:share_id])
+    @share.update_attributes(params)
+    if @share.persisted?
+      empty_ok_response
+    else
+      respond_with_errors(@share.errors)
+    end
+  end
+
+  def destroy_share
+    @share = Share.find(params[:id]).destroy
+    if @share.destroyed?
+      empty_ok_response
+    else
+      respond_with_errors(@share.errors)
     end
   end
 
