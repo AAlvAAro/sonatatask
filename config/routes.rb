@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 	resources :users, except: ['index', 'new', 'edit'] do 
     member do
       get :search_tasks
+      get :shares
     end
 
     resources :tasks, except: ['new', 'edit'] do

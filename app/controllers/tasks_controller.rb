@@ -73,6 +73,11 @@ class TasksController < ApplicationController
     else
       respond_with_errors(@friend.errors)
     end
+  enda
+
+  def get_shares
+    @shares = User.find(params[:id]).shares
+    render json: { shares: @shares }, status: :ok
   end
 
   def edit_share
