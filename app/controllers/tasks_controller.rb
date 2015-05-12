@@ -21,7 +21,7 @@ class TasksController < ApplicationController
     if @task.persisted?
       empty_ok_response
     else
-      respond_with_errors(@task.errors)
+      render json: { task: @task }, status: :ok
     end
   end
 
@@ -31,26 +31,26 @@ class TasksController < ApplicationController
     if @task.save!
       empty_ok_response
     else
-      respond_with_errors(@task.errors)
+      render json: { task: @task }, status: :ok
     end
   end
 
   def destroy
-    @task = User.find(params[:user_id]).tasks.find(params[:id])
-    if @task.destroy
+    task = User.find(params[:user_id]).tasks.find(params[:id])
+    if task.destroy
       empty_ok_response
     else
-      respond_with_errors(@task.errors)
+      respond_with_errors(task.errors)
     end   
   end
 
   def check
-    @task = User.find(params[:user_id]).tasks.find(params[:id])
-    @task.finished = true
-    if @task.save!
+    task = User.find(params[:user_id]).tasks.find(params[:id])
+    task.finished = true
+    if task.save!
       render json: { checked: true }, status: :ok
     else
-      respond_with_errors(@task.errors)
+      respond_with_errors(task.errors)
     end
   end
 
@@ -84,20 +84,20 @@ class TasksController < ApplicationController
 
   def update_share
     @user_share = User.find(params[:user_id]).shares.find(params[:share_id])
-    @friend_share = User.find(params[:friend_id]).shares.find(params[:share_id])
-    @user_share.update_attributes(share_params)
-    @friend_share.update_attributes(share_params)
-    if @user_share.persisted? && @friend_share.persisted?
-      empty_ok_response
+    friend_share = User.find(params[:friend_id]).shares.find(params[:share_id])
+    user_share.update_attributes(share_params)
+    friend_share.update_attributes(share_params)
+    if user_share.persisted? && friend_share.persisted?
+      render json: { share: @user_share }, status: :ok
     else
       render json: { error: "Share couldn't be updated" }, status: :unprocessable_entity
     end
   end
 
   def destroy_share
-    @user_share = User.find(params[:user_id]).find(params[:share_id]).destroy
-    @friend_share = User.find(params[:friend_id]).find(params[:share_id]).destroy
-    if @user_share.destroyed? and @friend_share.destroyed?
+    user_share = User.find(params[:user_id]).find(params[:share_id]).destroy
+    friend_share = User.find(params[:friend_id]).find(params[:share_id]).destroy
+    if user_share.destroyed? and friend_share.destroyed?
       empty_ok_response
     else
       render json: { error: "Share couldn't be deleted" }, status: :unprocessable_entity
@@ -105,15 +105,15 @@ class TasksController < ApplicationController
   end
 
   def attach_image
-    @task = User.find(params[:user_id]).tasks.find(params[:id])
-    @image = @task.images.new
+    task = User.find(params[:user_id]).tasks.find(params[:id])
+    @image = task.images.new
     tmp = params[:file].tempfile
     img = MiniMagick::Image.read(tmp)
     @image.image = File.open(img.path) 
     if @image.save!
       empty_ok_response
     else
-      respond_with_errors(@task.errors)
+      respond_with_errors(task.errors)
     end
   end
 
