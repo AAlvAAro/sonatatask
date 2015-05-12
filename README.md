@@ -11,10 +11,6 @@ Before running the project you should have the following tools installed:
 # To run the project
 
 ```bash
-bundle exec rails s
-```
-
-* You can also run https in development mode on port 3001, just run:
-```bash
 foreman start 
 ```
+Listen at http://localhost:3000 or https://localhost:3100 
